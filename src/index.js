@@ -6,10 +6,15 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
+
+// GET /ping - Ping the main service (working)
 app.get('/ping', (req, res) => {
   return res.json({ message: 'Problem service is alive' });
 });
+
+// Mount API routes at /api (working)
 app.use('/api', apiRouter);
+
 app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}`);
 });
