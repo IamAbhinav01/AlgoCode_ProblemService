@@ -4,6 +4,7 @@ const { PORT } = require('./config/server.config');
 const apiRouter = require('./routes');
 const BaseError = require('./errors/Base.err');
 const errorHandler = require('./utils/errorHandler');
+const connectToDB = require('./config/db.config');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,7 +19,7 @@ app.get('/ping', (req, res) => {
 app.use('/api', apiRouter);
 
 app.use(errorHandler); //last middleware when an error comes
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server started at port ${PORT}`);
   // try {
   //   throw new BaseError('some error', 404, 'something went wrong', {});
@@ -27,4 +28,6 @@ app.listen(PORT, () => {
   // } finally {
   //   console.log('executed finally');
   // }
+  await connectToDB();
+  console.log('successfully connected to db');
 });
